@@ -1,0 +1,19 @@
+source: MSSQL_POC
+target: BQ_POC
+
+defaults:
+  mode: incremental
+  target_options:
+    add_new_columns: true
+    column_casing: snake
+
+streams:
+  dbo.customers:
+    object: customers
+    primary_key: [customer_id]
+    update_key: updated_at
+
+  dbo.orders:
+    object: orders
+    primary_key: [order_id]
+    update_key: updated_at

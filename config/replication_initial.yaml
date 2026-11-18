@@ -1,0 +1,15 @@
+source: MSSQL_POC
+target: BQ_POC
+
+defaults:
+  mode: full-refresh
+  target_options:
+    add_new_columns: true
+    column_casing: snake
+
+streams:
+  dbo.customers:
+    object: customers
+
+  dbo.orders:
+    object: orders
