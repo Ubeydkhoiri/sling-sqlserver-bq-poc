@@ -4,24 +4,12 @@ This repository contains a hands-on proof of concept (POC) for batch ingestion f
 
 The setup runs SQL Server in Docker on macOS, creates two sample source tables, performs an initial load, and demonstrates incremental ingestion of new and updated records.
 
-## POC workflow
+## Architecture
 
-```text
-SQL Server (Docker)
-  SlingPOC
-  ├── dbo.customers
-  └── dbo.orders
-        |
-        | Sling CLI
-        v
-Google Cloud Storage (temporary staging)
-        |
-        v
-BigQuery
-  <your-project_id>.sling_poc
-  ├── customers
-  └── orders
-```
+This POC demonstrates batch ingestion from Microsoft SQL Server to BigQuery
+using Sling CLI, with Google Cloud Storage used as temporary staging.
+
+![Sling SQL Server to BigQuery Architecture](images/architecture.png)
 
 ## Guides
 
