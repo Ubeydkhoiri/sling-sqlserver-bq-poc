@@ -1,0 +1,11 @@
+# Environment variables
+.env
+!.env.example
+
+# Credentials & secrets
+*.key
+credentials/
+secrets/
+
+# Test files & directories
+test/
