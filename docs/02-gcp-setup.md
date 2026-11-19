@@ -4,12 +4,12 @@ This guide prepares the BigQuery destination, Cloud Storage staging bucket, and 
 
 ## 1. Define the GCP variables
 
-Set these variables once at the beginning of your Terminal session. Replace only the project ID placeholder.
+Set these variables once at the beginning of your Terminal session. Replace the project ID placeholder.
 
 ```bash
 export PROJECT_ID="<your-project_id>"
-export REGION="asia-southeast2"
-export BQ_DATASET="sling_poc"
+export REGION="asia-southeast2" 
+export BQ_DATASET="sling_poc" 
 export GCS_BUCKET="${PROJECT_ID}-sling-staging"
 export SERVICE_ACCOUNT_ID="sling-poc-sa"
 export SERVICE_ACCOUNT="${SERVICE_ACCOUNT_ID}@${PROJECT_ID}.iam.gserviceaccount.com"

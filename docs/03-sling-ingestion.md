@@ -7,7 +7,28 @@ Complete these guides first:
 - [SQL Server setup](01-mssql-setup.md)
 - [GCP setup](02-gcp-setup.md)
 
-## 1. Set the environment variables
+## 1. Install Sling CLI on macOS
+
+Sling CLI is a command-line tool for moving data between databases and storage systems. On macOS, install it using Homebrew (recommended for this tutorial).
+
+### In this tutorial we use Homebrew
+
+If Homebrew is not installed, follow the [Homebrew installation guide](https://brew.sh/). Then install Sling:
+
+```bash
+brew install slingdata-io/sling/sling
+```
+
+Verify that Sling is installed and available in your PATH:
+
+```bash
+sling --version
+sling --help
+```
+
+> Choose one installation method; you do not need to install Sling twice. Refer to the [official Sling installation guide](https://docs.slingdata.io/sling-cli/getting-started) for the latest options.
+
+## 2. Set the environment variables
 
 Open a Terminal at the repository root (`sling-sqlserver-bq-poc`).
 
@@ -29,7 +50,7 @@ export SERVICE_ACCOUNT="${SERVICE_ACCOUNT_ID}@${PROJECT_ID}.iam.gserviceaccount.
 export KEY_FILE="$(pwd)/credentials/${SERVICE_ACCOUNT_ID}.json"
 ```
 
-## 2. Configure Sling connections
+## 3. Configure Sling connections
 
 Create the SQL Server source connection:
 
@@ -65,7 +86,7 @@ sling conns test BQ_POC
 
 Both tests should succeed before running replication.
 
-## 3. Initial full load
+## 4. Initial full load
 
 The initial-load configuration is [`../config/replication_initial.yaml`](../config/replication_initial.yaml):
 
@@ -122,7 +143,7 @@ FROM `<your-project_id>.sling_poc.orders`;
 
 Expected: 50 rows in each table.
 
-## 4. Configure incremental ingestion
+## 5. Configure incremental ingestion
 
 The incremental configuration is [`../config/replication_incremental.yaml`](../config/replication_incremental.yaml):
 
@@ -152,7 +173,7 @@ The primary key identifies the destination record. The update key identifies the
 
 > **Important:** Verify the exact incremental behavior and state/checkpoint handling for your installed Sling version. A timestamp watermark is not a transaction log and is not equivalent to SQL Server CDC.
 
-## 5. Simulate source changes
+## 6. Simulate source changes
 
 The test SQL is in [`../sql/03_incremental_test.sql`](../sql/03_incremental_test.sql).
 
@@ -178,7 +199,7 @@ docker exec -i sling-poc-sqlserver \
 
 The script updates existing rows first and waits briefly before inserting new rows. This helps make the test timestamps progress in order.
 
-## 6. Run incremental ingestion
+## 7. Run incremental ingestion
 
 ```bash
 sling run -r config/replication_incremental.yaml
@@ -232,7 +253,7 @@ WHERE order_id = 1051;
 
 Expected: one row.
 
-## 7. Test a second incremental run
+## 8. Test a second incremental run
 
 Run the same job again without making more source changes:
 
@@ -247,7 +268,7 @@ Expected row counts should remain:
 
 If counts increase, investigate the primary-key, update-key, replication mode, and target merge behavior.
 
-## 8. Optional: run the job from a shell script
+## 9. Optional: run the job from a shell script
 
 Create `run_incremental.sh` in the repository root:
 
@@ -292,7 +313,7 @@ tail -100 logs/incremental_$(date +%Y%m%d).log
 
 For this script, the Sling connections must already have been configured for the same macOS user.
 
-## 9. Optional: schedule with macOS cron
+## 10. Optional: schedule with macOS cron
 
 Edit the crontab:
 
@@ -314,7 +335,7 @@ crontab -l
 
 The Mac must be awake, online, and running Docker/SQL Server at the scheduled time. For production, use a managed scheduler and execution environment instead of a laptop.
 
-## 10. Incremental ingestion considerations
+## 11. Incremental ingestion considerations
 
 This POC demonstrates a simple batch watermark pattern. Consider these limitations before using it in production:
 

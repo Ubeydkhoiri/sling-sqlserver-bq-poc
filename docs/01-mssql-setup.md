@@ -19,7 +19,7 @@ docker info
 Run this from the directory where you want the project to live. This creates the project in the **current directory**, not under your home directory.
 
 ```bash
-mkdir -p sling-sqlserver-bq-poc/{docker,sql,docs,config,credentials,logs}
+mkdir -p sling-sqlserver-bq-poc/{docker,sql,config}
 cd sling-sqlserver-bq-poc
 ```
 
@@ -27,7 +27,7 @@ If you have already cloned or created the repository, simply `cd` into its root.
 
 ## 2. Configure the SQL Server password
 
-Create a local `.env` file in the project root:
+Create a local `.env` file in the project root to store MSSQL user password:
 
 ```bash
 cat > .env <<'EOF'
